@@ -25,7 +25,7 @@ double power(double base, int exponent)
 		exponent /= 2;
 	}
 
-	return result;
+	return (result);
 }
 
 /**
@@ -56,7 +56,7 @@ int is_perfect(const binary_tree_t *tree)
 }
 
 /**
- * binary_tree_is_perfect -  checks if a binary tree is perfect
+ * binary_tree_is_perfect -  checks if a binary tree is perfecta
  * @tree: pointer to the root node of the binary tree
  *
  * Return: 1 if the binary tree is full, 0 otherwise
