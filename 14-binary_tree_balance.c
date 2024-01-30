@@ -29,7 +29,7 @@ size_t th(const binary_tree_t *tree)
 	{
 		rh = tree->left ? 1 + th(tree->left) : 1;
 		lh = tree->right ? 1 + th(tree->right) : 1;
-		return max(lh, rh);
+		return (max(lh, rh));
 	}
 	return (0);
 }
