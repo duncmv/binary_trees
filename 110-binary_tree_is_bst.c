@@ -89,13 +89,14 @@ int find_min(const binary_tree_t *tree)
 */
 int binary_tree_is_bst(const binary_tree_t *tree)
 {
-	int left_max, right_min, left_sub, right_sub, root;
-	int *array = NULL, index = 0;
+	int left_max, right_min, l_sub, r_sub, root, *array = NULL, index = 0;
 	size_t i, j, size;
 
 	if (tree == NULL)
 		return (0);
 	size = binary_tree_size(tree);
+	if (size == 1)
+		return (1);
 	array = malloc(sizeof(int) * size);
 	tree_preorder(array, &index, tree, populate_array);
 	for (i = 0; i < size; i++)
@@ -103,9 +104,13 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 		for (j = i + 1; j < size; j++)
 		{
 			if (array[i] == array[j])
+			{
+				free(array);
 				return (0);
+			}
 		}
 	}
+	free(array);
 	root = tree->n;
 	if (tree->left)
 	{
@@ -119,11 +124,7 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 		if (right_min < root)
 			return (0);
 	}
-	left_sub = right_sub = 1;
-	if (tree->left)
-		left_sub = binary_tree_is_bst(tree->left);
-	if (tree->right)
-		right_sub = binary_tree_is_bst(tree->right);
-
-	return (left_sub && right_sub);
+	l_sub = tree->left ? binary_tree_is_bst(tree->left) : 1;
+	r_sub = tree->right ? binary_tree_is_bst(tree->right) : 1;
+	return (l_sub && r_sub);
 }
