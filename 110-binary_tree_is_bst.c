@@ -1,5 +1,4 @@
 #include "binary_trees.h"
-#include <limits.h>
 /**
  * tree_preorder - goes through a binary tree using pre-order traversal
  * @array: array to store node values
@@ -38,7 +37,7 @@ int find_max(const binary_tree_t *tree)
 	int max_value, left_max, right_max;
 
 	if (tree == NULL)
-		return (INT_MIN);
+		return (-2147483648);
 
 	max_value = tree->n;
 
@@ -65,7 +64,7 @@ int find_min(const binary_tree_t *tree)
 	int min_value, left_min, right_min;
 
 	if (tree == NULL)
-		return (INT_MAX);
+		return (2147483647);
 
 	min_value = tree->n;
 
