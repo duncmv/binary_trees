@@ -1,6 +1,33 @@
 #include "binary_trees.h"
 #include <limits.h>
 /**
+ * tree_preorder - goes through a binary tree using pre-order traversal
+ * @array: array to store node values
+ * @index: index of array
+ * @tree: pointer to the root node of the tree
+ * @func: pointer to helper function
+*/
+void tree_preorder(int *array, int *index, const binary_tree_t *tree,
+void (*func)(int *, int, int *))
+{
+	if (tree == NULL || func == NULL)
+		return;
+
+	func(array, tree->n, index);
+	tree_preorder(array, index, tree->left, func);
+	tree_preorder(array, index, tree->right, func);
+}
+/**
+ * populate_array - populates an array with the values of a binary tree
+ * @array: to store values of nodes
+ * @n: value of the node
+ * @index: pointer to index
+*/
+void populate_array(int *array, int n, int *index)
+{
+	array[(*index)++] = n;
+}
+/**
  * find_max - finds the max value of a binary tree
  * @tree: pointer to root of tree to be checked
  *
@@ -63,26 +90,35 @@ int find_min(const binary_tree_t *tree)
 int binary_tree_is_bst(const binary_tree_t *tree)
 {
 	int left_max, right_min, left_sub, right_sub, root;
+	int *array = NULL, index = 0;
+	size_t i, j, size;
 
 	if (tree == NULL)
 		return (0);
+	size = binary_tree_size(tree);
+	array = malloc(sizeof(int) * size);
+	tree_preorder(array, &index, tree, populate_array);
+	for (i = 0; i < size; i++)
+	{
+		for (j = i + 1; j < size; j++)
+		{
+			if (array[i] == array[j])
+				return (0);
+		}
+	}
 	root = tree->n;
-
 	if (tree->left)
 	{
 		left_max = find_max(tree->left);
 		if (left_max > root)
 			return (0);
 	}
-
 	if (tree->right)
 	{
 		right_min = find_min(tree->right);
 		if (right_min < root)
 			return (0);
 	}
-
-	/*checking sub trees*/
 	left_sub = right_sub = 1;
 	if (tree->left)
 		left_sub = binary_tree_is_bst(tree->left);
