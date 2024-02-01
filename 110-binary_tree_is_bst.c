@@ -17,17 +17,15 @@ size_t binary_tree_size(const binary_tree_t *tree)
  * @array: array to store node values
  * @index: index of array
  * @tree: pointer to the root node of the tree
- * @func: pointer to helper function
 */
-void tree_preorder(int *array, int *index, const binary_tree_t *tree,
-void (*func)(int *, int, int *))
+void tree_preorder(int *array, int *index, const binary_tree_t *tree)
 {
 	if (tree == NULL || func == NULL)
 		return;
 
-	func(array, tree->n, index);
-	tree_preorder(array, index, tree->left, func);
-	tree_preorder(array, index, tree->right, func);
+	array[(*index)++] = tree->n;
+	tree_preorder(array, index, tree->left);
+	tree_preorder(array, index, tree->right);
 }
 /**
  * populate_array - populates an array with the values of a binary tree
