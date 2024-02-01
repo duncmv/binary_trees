@@ -2,7 +2,6 @@
 #include "limits.h"
 static size_t leafs_align_(const binary_tree_t *tree, size_t *dpth);
 static int partial_complete(const binary_tree_t *tree);
-static int is_full(const binary_tree_t *tree);
 
 /**
  * partial_complete - Internal nodes can have 0, 1, or 2 children
@@ -27,24 +26,6 @@ static int partial_complete(const binary_tree_t *tree)
 		return (0);
 
 	return (partial_complete(tree->left) && partial_complete(tree->right));
-}
-
-static int is_full(const binary_tree_t *tree)
-{
-	/**
-	 * A binary tree is full if each node has extacly 0 or two children.
-	 * There is no node with only left or right child.
-	 * They either have both or none at all
-	 */
-	if (tree == NULL)
-		return (1);
-
-	if (tree->left && tree->right == NULL)
-		return (0);
-	else if (tree->right && tree->left == NULL)
-		return (0);
-
-	return (is_full(tree->left) && is_full(tree->right));
 }
 
 /**
@@ -98,7 +79,6 @@ size_t leafs_align(const binary_tree_t *tree)
 			leaf_depth = current_depth;
 		if (leaf_depth != current_depth)
 		{
-			printf("\nleaf_depth: %lu, curr_depth: %lu-:\t", leaf_depth, current_depth);
 			return (0);
 		}
 	}
@@ -131,7 +111,7 @@ int binary_tree_is_complete(const binary_tree_t *tree)
 	if (!leafs_align(tree))
 		return (0);
 
-	if (!is_full(tree))
+	if (!partial_complete(tree))
 		return (0); /* All leafs aren't on the same level */
 	return (1);
 }
