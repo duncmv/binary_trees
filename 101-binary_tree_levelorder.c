@@ -44,9 +44,9 @@ int tree_height(const binary_tree_t *tree)
 		return (right);
 }
 /**
- * binary_tree_levelorder - go through binary tree using level-order 
+ * binary_tree_levelorder - go through binary tree using level-order
  * @tree: pointer to root of tree
- * @func: function pointer 
+ * @func: function pointer
  */
 void binary_tree_levelorder(const binary_tree_t *tree, void (*func)(int))
 {
