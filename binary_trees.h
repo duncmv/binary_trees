@@ -52,4 +52,6 @@ int binary_tree_is_bst(const binary_tree_t *tree);
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 				     const binary_tree_t *second);
 
+int binary_tree_is_complete(const binary_tree_t *tree);
+
 #endif
