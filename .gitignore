@@ -12,6 +12,7 @@ tm
 chk
 monty
 0.m
+t/
 
 
 # Ignore compiled object files and executables
