@@ -80,7 +80,7 @@ size_t longest_path(const binary_tree_t *tree)
 }
 
 /**
- * short_path - the height of a tree
+ * shortest_path - the height of a tree
  * @tree: pointer to a tree
  *
  * Return: the height of a binary tree
