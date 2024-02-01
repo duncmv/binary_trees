@@ -28,16 +28,6 @@ void tree_preorder(int *array, int *index, const binary_tree_t *tree)
 	tree_preorder(array, index, tree->right);
 }
 /**
- * populate_array - populates an array with the values of a binary tree
- * @array: to store values of nodes
- * @n: value of the node
- * @index: pointer to index
-*/
-void populate_array(int *array, int n, int *index)
-{
-	array[(*index)++] = n;
-}
-/**
  * find_max - finds the max value of a binary tree
  * @tree: pointer to root of tree to be checked
  *
