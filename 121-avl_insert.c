@@ -102,7 +102,7 @@ void avl_rotation(avl_t *node)
 	avl_t *current = node, *child;
 	int balance, balance_child;
 
-	while (current != NULL && current->parent != NULL)
+	while (current != NULL)
 	{
 		balance = binary_tree_balance(current);
 		if (balance > 1)
@@ -112,13 +112,11 @@ void avl_rotation(avl_t *node)
 			if (balance_child > 0)
 			{
 				binary_tree_rotate_right(child);
-				break;
 			}
 			else if (balance_child < 0)
 			{
 				binary_tree_rotate_left(child);
 				binary_tree_rotate_right(current);
-				break;
 			}
 		}
 		else if (balance < -1)
@@ -128,13 +126,11 @@ void avl_rotation(avl_t *node)
 			if (balance_child < 0)
 			{
 				binary_tree_rotate_left(current);
-				break;
 			}
 			else if (balance_child > 0)
 			{
 				binary_tree_rotate_right(child);
 				binary_tree_rotate_left(current);
-				break;
 			}
 		}
 		current = current->parent;
