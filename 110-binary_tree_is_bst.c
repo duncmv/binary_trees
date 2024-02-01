@@ -20,7 +20,7 @@ size_t binary_tree_size(const binary_tree_t *tree)
 */
 void tree_preorder(int *array, int *index, const binary_tree_t *tree)
 {
-	if (tree == NULL || func == NULL)
+	if (tree == NULL)
 		return;
 
 	array[(*index)++] = tree->n;
@@ -108,7 +108,7 @@ int binary_tree_is_bst(const binary_tree_t *tree)
 	if (size == 1)
 		return (1);
 	array = malloc(sizeof(int) * size);
-	tree_preorder(array, &index, tree, populate_array);
+	tree_preorder(array, &index, tree);
 	for (i = 0; i < size; i++)
 	{
 		for (j = i + 1; j < size; j++)
