@@ -1,7 +1,21 @@
 #include "binary_trees.h"
 #include "limits.h"
-static size_t leafs_align_(const binary_tree_t *tree, size_t *dpth);
 static int partial_complete(const binary_tree_t *tree);
+
+/**
+ * gaps - checks if leafs level align
+ * @tree: pointer to a binary tree
+ *
+ * Return: 1 for true and 0 for false
+ */
+static int gaps(const binary_tree_t *tree)
+{
+	if (tree == NULL)
+		return (0);
+	if (tree->left && tree->right == NULL)
+		return (1 + gaps(tree->left));
+	return (gaps(tree->left) + gaps(tree->right));
+}
 
 /**
  * partial_complete - Internal nodes can have 0, 1, or 2 children
@@ -29,61 +43,60 @@ static int partial_complete(const binary_tree_t *tree)
 }
 
 /**
- * leafs_align - checks if leafs level align
- * @tree: pointer to a binary tree
- * @leaf_depth: pointer to keep track of leaf_depth accross invoctions
+ * max - get the max of two integers
+ * @x: first int
+ * @y: second int
+ * @min: should the min be returned instead: 1 for true 0 for false
  *
- * Return: 1 for true and 0 for false
+ * Return: the the greater of the two integers
  */
-static size_t leafs_align_(const binary_tree_t *tree, size_t *leaf_depth)
+size_t max(size_t x, size_t y, int min)
 {
-	size_t current_depth;
-	const binary_tree_t *tmp;
-
-	if (tree == NULL)
-		return (1);
-	if (tree->left == NULL && tree->right == NULL)
-	{
-		for (current_depth = 0, tmp = tree; tmp; tmp = tmp->parent)
-			current_depth++; /* gets the depth of current node */
-
-		if (*leaf_depth == 0)
-			*leaf_depth = current_depth;
-		if (*leaf_depth != current_depth)
-		{
-			printf("leaf_depth: %lu, curr_depth: %lu\n", *leaf_depth, current_depth);
-			return (0); /* Early return */
-		}
-	}
-	return leafs_align_(tree->left, leaf_depth) &&
-		       leafs_align_(tree->right, leaf_depth)
-		   ? 1
-		   : 0;
+	if (min && x > y)
+		return (y);
+	if (x > y)
+		return (x);
+	return (y);
 }
 
-size_t leaf_depth = INT_MAX;
-
-size_t leafs_align(const binary_tree_t *tree)
+/**
+ * longest_path - the height of a tree
+ * @tree: pointer to a tree
+ *
+ * Return: the height of a binary tree
+ */
+size_t longest_path(const binary_tree_t *tree)
 {
-	const binary_tree_t *tmp;
-	size_t current_depth;
+	size_t lh;
+	size_t rh;
 
-	if (tree == NULL)
-		return (1);
-	if (tree->left == NULL && tree->right == NULL)
+	if (tree)
 	{
-		for (current_depth = -1, tmp = tree; tmp; tmp = tmp->parent)
-			current_depth++; /* gets the depth of current node */
-
-		if (leaf_depth == INT_MAX)
-			leaf_depth = current_depth;
-		if (leaf_depth != current_depth)
-		{
-			return (0);
-		}
+		rh = tree->left ? 1 + longest_path(tree->left) : 1;
+		lh = tree->right ? 1 + longest_path(tree->right) : 1;
+		return (max(lh, rh, 0));
 	}
+	return (0);
+}
 
-	return (leafs_align(tree->left) && leafs_align(tree->right)) ? 1 : 0;
+/**
+ * short_path - the height of a tree
+ * @tree: pointer to a tree
+ *
+ * Return: the height of a binary tree
+ */
+size_t shortest_path(const binary_tree_t *tree)
+{
+	size_t lh;
+	size_t rh;
+
+	if (tree)
+	{
+		rh = tree->left ? 1 + shortest_path(tree->left) : 1;
+		lh = tree->right ? 1 + shortest_path(tree->right) : 1;
+		return (max(lh, rh, 1));
+	}
+	return (0);
 }
 
 /**
@@ -102,16 +115,16 @@ size_t leafs_align(const binary_tree_t *tree)
  */
 int binary_tree_is_complete(const binary_tree_t *tree)
 {
-	/* size_t leaf_depth = 0; */
-
-	(void)partial_complete;
-	(void)leafs_align_;
-
-	/* if (!leafs_align(tree, &leaf_depth)) */
-	if (!leafs_align(tree))
-		return (0);
+	int longest, shortest;
 
 	if (!partial_complete(tree))
 		return (0); /* All leafs aren't on the same level */
+
+	longest = (int)longest_path(tree);
+	shortest = (int)shortest_path(tree);
+	if (longest - shortest > 1 || longest - shortest < -1)
+		return (0);
+	if (gaps(tree) > 1)
+		return (0);
 	return (1);
 }
