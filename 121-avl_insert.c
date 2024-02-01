@@ -155,6 +155,10 @@ avl_t *avl_insert(avl_t **tree, int value)
 	node = bst_insert(tree, value);
 	current = node;
 	avl_rotation(current);
+	if (current->left)
+		avl_rotation(current->left);
+	if (current->right)
+		avl_rotation(current->right);
 
 	return (node);
 }
