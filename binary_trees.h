@@ -54,4 +54,5 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 binary_tree_t *binary_tree_rotate_right(binary_tree_t *tree);
 bst_t *bst_insert(bst_t **tree, int value);
 int binary_tree_is_avl(const binary_tree_t *tree);
+avl_t *avl_insert(avl_t **tree, int value);
 #endif
